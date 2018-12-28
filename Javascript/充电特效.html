@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" >
+		<title>充电特效</title>
+		<link rel="stylesheet" href="">
+		<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src=""></script>
+		<style type="text/css">
+			*{margin:0;padding:0;}
+			li{list-style:none;}
+			.box{
+				height:80px;
+				width:300px;
+				background:#778899;
+				margin:150px 0 0 100px;
+			}
+			.louKong{
+				background:#fff; 
+				height:40px;
+				width:160px;
+				padding:1px;
+				position:relative;
+				top:20px;
+				left:50px;
+				border-radius:18px;
+			}
+			.bar{
+				height:40px;
+				width:160px;
+				position:relative;
+				top:0;
+				left:0;
+				border-radius:18px; /*必需，与遮挡配套使用*/
+				overflow:hidden;  /*用于遮挡进度条的圆角多余区域*/
+			}
+			.button{
+				height:80px;
+				width:250px;
+				margin:40px 0 0 100px;
+			}
+			.btn{
+				height:40px;
+				width:80px;
+				margin-left:20px;
+				margin-top:10px;
+			}
+			.shuoming{
+				margin:60px 0 0 100px;
+			}
+			h2{
+				margin:10px 0;
+			}
+		</style>
+	</head>
+	<body>
+	
+		<div class="box">
+			<div class="louKong">
+				<div class="bar">
+					
+				</div>
+			</div>
+			
+		</div>
+		<div class="button">
+			<button class="btn start">开始充电</button>
+			<button class="btn stop">取消充电</button>
+			<button class="btn diaodian">极速掉电</button>
+			<button class="btn quxiao">结束掉电</button>
+		</div>
+		<div class="shuoming">
+			<h2>简要说明：</h2>
+			<div>
+				flag为1表示电量不变，2表示充电状态<br/>
+				diao为1表示掉电，0表示不掉电<br/>
+				掉电时可以充电，便不再掉电<br/>
+				充电时颜色为<span style="color:#32CD32">绿色(#32CD32)</span>，
+				未充电颜色为<span style="color:blue">蓝色(blue)</span>，
+				电量低于20%时颜色为<span style="color:red">红色(red)</span><br/>
+				<br/>
+				<h3>PS:</h3>
+				1、当电量不变时，单击"极速掉电"会进入掉电状态。
+					再次单击"充电"，掉电停止，进入充电状态，同时"极速掉电"不可用。<br/>
+				<span style="color:red;font-size:20px;">2、可试着不同情况的组合操作(如手机充电一样)，
+					有逻辑上的BUG及时反馈</span>
+			</div>
+		</div>
+		
+	
+		<script type="text/javascript">
+			$(function(){
+				var len = 0;	//剩余电量条长度
+				var flag = 1;	//1表示未充电状态，2表示充电状态
+				var diao = 0;	//1表示掉电，0表示不掉电
+				var t,d;		//用来存储setInterval()
+				
+				//动态创建进度条
+				$jinduBar =$("<div></div>");
+				$jinduBar.css({"height":"40px","width":"0px","background":"blue"});				
+				$(".bar").append($jinduBar);
+				
+				//开始充电，注意充电与掉电不会并存！！！
+				$(".start").on("click",function(){
+					if(flag==1&&diao==0){  //当未充电且不掉电
+						t=setInterval(chongDian,100);
+						clearInterval(d);
+						flag = 2;
+						diao = 0;
+						$(".diaodian").attr("disabled","true");//充电时掉电不可用
+					}
+					if(flag==1&&diao==1){	//当掉电时
+						t = setInterval(chongDian,100);
+						clearInterval(d);
+						flag = 2;
+						diao = 0;
+					}									
+				});
+				
+				//取消充电
+				$(".stop").on("click",function(){
+					if(flag==2&&diao==0){		//只有充电状态时才可以取消充电
+						clearInterval(t);
+								
+						if(len<32){		//电量小于20%为红色
+							$jinduBar.css("background","red");
+						}
+						else{
+							$jinduBar.css("background","blue");
+						}
+						$(".diaodian").removeAttr("disabled"); //掉电可用
+						flag = 1;
+						diao = 0;	
+					}
+				});
+				
+				//极速掉电
+				$(".diaodian").on("click",function(){ 
+					if(flag==1&&diao==0){	//未充电状态掉电
+						$(".diaodian").attr("disabled","true");
+						d = setInterval(diaoDian,100);
+						flag=1;
+						diao=1;
+					}
+				});
+				
+				//取消掉电
+				$(".quxiao").on("click",function(){
+					if(flag==1&&diao==1){		//只有掉电时才可以取消掉电
+						clearInterval(d);
+						$(".diaodian").removeAttr("disabled");//掉电可用
+						flag = 1;
+						diao = 0;
+					}
+				});
+				
+				//充电函数
+				function chongDian(){
+					if(len<160){   //当电量未充满时
+						len = $jinduBar.width();
+						len = len+2;
+						$jinduBar.css({"background":"#32CD32","width":len+'px'});
+						flag =2;
+						diao =0;
+						if(len==160){  //电量充满时
+							clearInterval(t);
+							clearInterval(d);
+							flag=2;
+							diao=0;
+						}
+					}
+				}
+				
+				//掉电函数
+				function diaoDian(){
+					len = $jinduBar.width();
+					if(len>0){		//剩余电量不为0时
+						len = len-1;
+						$jinduBar.css({"background":"blue","width":len+'px'});
+						if(len<=32){
+							$jinduBar.css({"background":"red","width":len+'px'});
+						}
+						if(len==160){	//电量为满时
+							flag = 1;
+							diao = 1;
+						}
+						if(len==0){    //电量为0时
+							clearInterval(d);
+							flag=1;
+							diao=0;
+							$(".diaodian").removeAttr("disabled");
+						}
+					}	
+				}
+			});
+		</script>
+	</body>
+</html>
