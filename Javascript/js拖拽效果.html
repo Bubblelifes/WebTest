@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" >
+		<title>js拖拽效果</title>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}
+			#login{
+				height:100px;
+				width:100px;
+				position:relative;
+				top:200px;
+				left:200px;
+				background:pink;
+				border:1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+	
+		<div id="login">
+		</div>
+	
+	
+		<script type="text/javascript">
+			var oDiv = document.getElementById("login");
+			oDiv.onmousedown = function(e){
+				var e = e||window.event;
+				<!-- 获取鼠标点击的位置到所选对象的边框的水平(垂直)距离 -->
+				var diffX = e.clientX - oDiv.offsetLeft;
+				var diffY = e.clientY - oDiv.offsetTop;
+				<!-- 需要设置为document才能作用整个文档 -->
+				document.onmousemove = function(e){
+					var e = e||window.event;
+					oDiv.style.left = e.clientX -diffX+'px';
+					oDiv.style.top = e.clientY -diffY+'px';
+				};
+				
+				document.onmouseup = function(){
+					document.onmousemove = null;
+					<!-- document.onmouseup = null; -->
+				};
+			};
+			
+			
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
