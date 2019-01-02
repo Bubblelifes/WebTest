@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" >
+		<title>键盘控制小球</title>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}
+			#box{
+				width:100px;
+				height:100px;
+				background:pink;
+				border:1px solid pink;
+				position:absolute;
+				border-radius:50px;
+			}
+		</style>
+	</head>
+	<body>
+	
+		<div id="box"></div>
+	
+	
+		<script type="text/javascript">
+			
+			 window.onload = function(){
+				var box = document.getElementById("box");
+				var clientWidth = document.body.clientWidth||document.documentElement.clientWidth;
+				var clientHeight = document.body.clientHeight||document.documentElement.clientHeight;
+				var timer =null;
+				
+				//键盘按下
+				document.onkeydown = function(ev){
+					var ev = ev||event;
+					clearInterval(timer);
+					
+					timer = setInterval(function(){
+						switch(ev.keyCode){//键盘事件
+							case 37: //左键
+								if(box.offsetLeft>0){
+									box.style.left = box.offsetLeft - 10+'px';
+								}
+								break;
+							case 38:  //上键
+								if(box.offsetTop>0){
+									box.style.top = box.offsetTop -10+'px';
+								}
+								break;
+							case 39:   //右键
+								<!-- 当box距离父元素的左距离小于父元素(这里是body)和自身内部宽度之差,即box右侧有空档 -->
+								if(box.offsetLeft<clientWidth-box.offsetWidth){	
+									box.style.left = box.offsetLeft +10+'px';
+								}
+								break;
+							case 40:   //下键
+								//同理，box下侧有空档
+								if(box.offsetTop<clientHeight-box.offsetHeight){
+									box.style.top = box.offsetTop + 10+'px';
+								}
+								break;
+						}
+					},10);
+				
+				}
+				//键盘按键松开
+				document.onkeyup = function(){
+					clearInterval(timer);
+				}
+			 }
+		
+			<!-- 涉及知识点： -->
+				//event对象属性keyCode，常见的48-57表示0-9,65-90表示a-z(A-Z),
+				//37为左键，38为上键，39为右键，40为下键，32为空格键，13为回车键，9为tab键，8为退格键
+				
+		
+		
+		
+		
+		
+		
+		</script>
+	</body>
+</html>
