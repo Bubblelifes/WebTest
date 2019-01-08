@@ -1,0 +1,189 @@
+/* mycss */
+*{
+	margin:0;padding:0;cursor:default;
+}
+body{
+	height:100%;
+	width:100%;
+	background:url(../img/bj.jpg);
+	overflow:hidden;
+}
+li{
+	list-style:none;
+}
+.main{
+	width:100%;
+	height:898px;
+	
+	position:relative;
+}	
+	.icon{
+		position:absolute;
+		top:10px;
+		left:10px;
+		
+	}
+	.icon li{
+		position:relative;
+		height:100px;
+		width:100px;
+		text-align:center;
+		vertical-align:middle;
+		line-height:100px;
+		color:#EEE8AA;
+		text-shadow:1px 1px 1px gray;
+	}	
+	.icon li:hover{
+		background:#F0F8FF;
+		color:#F4A460;
+	}
+	.icon li img{
+		height:50px;
+	}
+	.icon li div{
+		height:30px;
+		width:100%;
+		position:relative;
+		top:-80px;
+	}
+	
+.footer{
+	width:100%;
+	height:40px;
+	background:#1E90FF;
+	position:relative;
+}
+	.footer div{
+		display:inline-table;
+		line-height:40px;
+		text-align:center;
+	}
+	.start{
+		height:100%;
+		width:70px;
+		background:#4682B4;
+		line-height:40px;
+		text-align:center;
+		cursor:pointer;
+	}
+	.start:hover{
+		color:#fff;
+		background:orange;
+	}
+	.start_menu{
+		height:auto;
+		width:200px;
+		position:absolute;
+		bottom:40px;
+		left:0;
+		background:green;
+		display:none;
+		cursor:Default;
+	}
+	.start_icon>li:hover{
+		background:blue;
+		color:#fff;
+	}
+	.start_icon>li{
+		height:60px;
+		line-height:60px;
+		position:relative;
+	}
+	.start_icon>li>div:first-child{
+		display:inline-block;
+		position:absolute;
+		left:0;
+	}
+	.start_icon>li>div>img{
+		height:50px;
+	}
+	.start_icon>li>div:last-child{
+		font-size:14px;
+		display:inline-block;
+		line-height:60px;
+	}
+		.menu0{
+			display:none;
+			position:absolute;
+			left:200px;
+			bottom:0;
+			height:auto;
+			width:100%;
+			background:#3CB371;
+		}
+		.menu0 li{
+			height:40px;
+			line-height:40px;
+			position:relative;
+		}
+		.start_icon>li:hover .menu0{
+			display:block;
+		}
+		.menu0 li:hover{
+			background:blue;
+			color:#fff;
+		}
+		.menu1[class="menu1"]{  
+			display:none;
+			position:absolute;
+			left:200px;
+			top:0;
+			height:auto;
+			width:100%;
+			background:#4682B4;
+		}
+		/* 防止选项出屏幕 */
+		[class="menu1 bo"]{
+			display:none;
+			position:absolute;
+			left:200px;
+			bottom:0;
+			height:auto;
+			width:100%;
+			background:#4682B4;
+		}
+		.menu1 li{
+			height:40px;
+			line-height:40px;
+		}
+		.menu0 li:hover .menu1{
+			display:block;
+		}
+		.menu1 li:hover{
+			background:blue;
+			color:#fff;
+		}
+	
+	.candanlan *{
+		display:inline;
+	}
+	.shurufa img{
+		height:30px;
+		position:absolute;
+		right:150px;
+		top:5px;
+		display:inline;
+	}
+	.date_content{
+		width:70px;
+		position:absolute;
+		right:20px;
+		color:#fff;
+		font-size:10px;
+		
+	}
+	.date_content ul li{
+		height:20px;
+		line-height:20px;
+		text-align:center;
+	}
+	.home{
+		width:20px;
+		height:40px;
+		right:0;
+		position:absolute;
+		background:#4682B4;
+	}
+	.home:hover{
+		background:#00BFFF;
+	}

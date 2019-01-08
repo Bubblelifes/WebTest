@@ -1,0 +1,26 @@
+/* css 1080p */
+body{
+	width:1920px;
+	height:100%;
+	background:pink;
+}
+.main{
+	width:100%;
+	height:96%;
+}
+.footer{
+	width:100%;
+	height:4%;
+	background:lightblue;
+	position:absolute;
+	bottom:0;
+}
+	.start{
+		height:100%;
+		width:60px;
+		background:red;
+		display:table;
+		vertical-align:middle;
+		text-align:center;
+	}
+
