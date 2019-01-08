@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" >
+		<title>进度条特效</title>
+		<link rel="stylesheet" href="">
+		<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src=""></script>
+		<style type="text/css">
+			*{margin:0;padding:0;}
+			a{text-decoration:none;}
+			li{list-style:none;}
+			
+			.box{
+				height:60px;
+				width:480px;
+				background:lightblue;
+				margin:200px 0 0 100px;
+			}
+			.bar{
+				height:30px;
+				width:300px;  	/*进度条可以的最大长度*/
+				background:#fff;
+				position:absolute;
+				margin:15px 50px;	
+			}
+			.button{
+				height:40px;
+				width:400px;
+				background:transparent;
+				margin-left:100px;
+				margin-top:30px;
+			}
+			.btn{
+				position:relative;
+				height:40px;
+				width:100px;
+				float:left;
+				margin-left:20px;
+			}
+			.shuoming{
+				
+				width:620px;
+				margin:30px 0 0 100px;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div class="box">
+			<div class="bar">
+			</div>
+		</div>
+		<div class="button">
+			<button class="btn pause">暂停</button>
+			<button class="btn continue">继续</button>
+			<button class="btn restart">重新归零读取</button>
+		</div>
+		<div class="shuoming">
+			<h2>简单说明</h2><br/>
+			<p>
+				1、网页加载完后进度条自动从34%开始，进度条读完之前"重新归零读取"无法使用。<br/>
+				2、加载速度为每秒3.3%
+			</p>
+		</div>
+		
+		
+		<script type="text/javascript">
+			$(function(){
+				var percent=0;  //进度条百分比
+				var len=0;		//进度条长度
+				var flag = true;
+				
+				//动态建立进度条(粉红色部分),初始化长度100px,即33.3%(化整34%)
+				$jinduBar =$("<div></div>");
+				$jinduBar.css({"height":"30px","width":"100px","background":"pink"});
+				$(".bar").append($jinduBar);
+				
+				//动态建立用来装百分比数字的div
+				$num = $("<div></div>").css({"margin-left":"360px",
+					"height":"60px",
+					"width":"150px",
+					"line-height":"60px",
+					"font-size":"20px"
+				});
+				
+				//网页加载完就会立即加载，默认34%开始
+				//进度条总长300px，初始化已加载部分100px
+				t=setInterval(duTiao,100);
+				
+				//暂停按钮
+				$(".pause").on("click",function(){
+						if(flag){
+							clearInterval(t);
+							flag = false;
+						}
+				});
+				
+				//继续按钮
+				$(".continue").on("click",function(){
+					if(flag==false){
+						//只有在进度条未加载完成时才会继续加载
+						if(percent<100){
+							t = setInterval(duTiao,100);
+						}
+						flag = true;
+					}	
+				});
+				
+				//重新归零读取
+				$(".restart").on("click",function(){
+					//只有在进度条完成的时候才可以归零重新读条
+					if(len==300){
+						$jinduBar.css("width",0);
+						len=0;
+						t = setInterval(duTiao,100);
+						flag = true;
+					}	
+				});
+				
+				//进度条读条函数
+				function duTiao(){
+					if(len<300){
+						$num.html("");
+						len = $jinduBar.width(); //获取进度条已加载部分长度
+						len = len+1;			 
+						
+						$jinduBar.css("width",len+'px');
+						
+						//先将比率处理成2位小数的浮点数，*100
+						//由于Javascript存在微小精度问题，所以一定要四舍五入为整数
+						percent = Math.round((parseFloat(len/$(".bar").width())).toFixed(2)*100);
+						$num.append(percent+"%");
+						$(".box").append($num);	
+						
+						//当进度条读完，数字后添加"完成！"
+						if(len==300){
+							clearInterval(t);
+							$num.append("完成!");	
+						}	
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" >
+		<title>获取鼠标坐标</title>
+	</head>
+	<body>
+	
+	<div style="background:pink;height:100px;width:100px;">
+		获取鼠标坐标：
+		</div>
+	
+	
+		窗口：<br/>
+		X:<input id="xxx1" type="text"><br/>
+		Y:<input id="yyy1" type="text"><br/>
+		<hr>
+		屏幕：<br/>
+		X:<input id="xxx2" type="text"><br/>
+		Y:<input id="yyy2" type="text">
+		
+		
+		
+		
+		
+		<script type="text/javascript">
+		
+			function mouseWindow(e){
+				if(e.pageX || e.pageY){
+					return {
+						x:e.pageX,
+						y:e.pageY
+					};
+				}
+				return {
+					x:e.clientX + document.body.scrollLeft - document.body.clientLeft,
+					y:e.clientY + document.body.scrollTop - document.body.clientTop
+					
+				};
+				<!-- 页面上的位置=可视区域位置+页面滚动条切去高度-自身border高度 -->
+			}
+			function mouseScreen(e){
+				return {
+					x:e.screenX,
+					y:e.screenY
+				};
+			}
+			function mouseMove(e){
+				e = e||window.event;
+				var mouseWin = mouseWindow(e);
+				var mouseScr = mouseScreen(e);
+				document.getElementById("xxx1").value=mouseWin.x;
+				document.getElementById("yyy1").value=mouseWin.y;
+				document.getElementById("xxx2").value=mouseScr.x;
+				document.getElementById("yyy2").value=mouseScr.y;
+			}
+			document.onmousemove = mouseMove;
+		
+		
+			<!-- 涉及知识点： -->
+				<!-- 1、在页面没有滚动的情况下 pageX和pageY的值与clientX和clientY的值相等 -->
+				<!-- 2、IE 8及以前的版本不支持事件对象的页面坐标，需要用到document.body(混杂模式)或document.documentElement(标准模式)的scrollLeft和scrollTop属性 -->
+				<!-- 3、clientX(Y)返回当事件被触发时鼠标指针指向对于浏览器页面的水平(垂直)坐标 -->
+				<!-- 4、screenX(Y)返回鼠标指针指向对于整个屏幕的水平(垂直)坐标 -->
+				<!-- 5、pageX相对整个页面，clientX相对可视页面 -->
+		
+		
+		
+		</script>
+	</body>
+</html>
